@@ -1,4 +1,12 @@
-import React from 'react';
+import { PropTypes } from 'react';
+import { requireNativeComponent, View } from 'react-native';
 
-import {NativeModules} from 'react-native';
-export default NativeModules.PhotoView;
+var iface = {
+    name: 'PhotoView',
+    propTypes: {
+        src: PropTypes.string,
+        ...View.propTypes // include the default view properties
+    },
+};
+
+module.exports = requireNativeComponent('PhotoView', iface);
