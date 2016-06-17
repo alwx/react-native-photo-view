@@ -5,6 +5,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.controller.BaseControllerListener;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
@@ -19,7 +20,12 @@ import javax.annotation.Nullable;
 public class PhotoViewModule extends SimpleViewManager<PhotoDraweeView> {
     private static final String REACT_CLASS = "PhotoView";
 
+    private ReactApplicationContext mContext;
     private PipelineDraweeControllerBuilder mController;
+
+    public PhotoViewModule(ReactApplicationContext context) {
+        mContext = context;
+    }
 
     @Override
     public String getName() {

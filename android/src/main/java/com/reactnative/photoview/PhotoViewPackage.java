@@ -19,14 +19,13 @@ public class PhotoViewPackage implements ReactPackage {
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        return Collections.emptyList();
+        List<ViewManager> viewManagers = new ArrayList<>();
+        viewManagers.add(new PhotoViewModule(reactContext));
+        return viewManagers;
     }
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        List<NativeModule> modules = new ArrayList<>();
-        modules.add(new PhotoViewModule(reactContext));
-
-        return modules;
+        return Collections.emptyList();
     }
 }
