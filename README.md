@@ -1,9 +1,10 @@
 # react-native-photo-view
 
 Provides custom Image view for React Native that allows to perform
-pinch-to-zoom on images.
+pinch-to-zoom on images. Works on both iOS and Android.
 
-It uses [PhotoDraweeView](https://github.com/ongakuer/PhotoDraweeView).
+This component uses [PhotoDraweeView](https://github.com/ongakuer/PhotoDraweeView) for Android and native
+Scroll + Image approach on iOS.
 
 ## Installation
 

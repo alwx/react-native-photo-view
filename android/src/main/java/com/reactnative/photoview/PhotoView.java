@@ -5,7 +5,6 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.AttributeSet;
 import android.view.View;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.controller.BaseControllerListener;
@@ -42,26 +41,12 @@ public class PhotoView extends PhotoDraweeView {
     private int mFadeDurationMs = -1;
     private ControllerListener mControllerListener;
 
-    public PhotoView(Context context, GenericDraweeHierarchy hierarchy) {
-        super(context, hierarchy);
-    }
-
     public PhotoView(Context context) {
         super(context);
     }
 
-    public PhotoView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public PhotoView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
     public void setSource(@Nullable String source,
-                          @NonNull PipelineDraweeControllerBuilder builder,
                           @NonNull ResourceDrawableIdHelper resourceDrawableIdHelper) {
-        mDraweeControllerBuilder = builder;
         mUri = null;
         if (source != null) {
             try {
@@ -139,7 +124,7 @@ public class PhotoView extends PhotoDraweeView {
         mIsDirty = true;
     }
 
-    public void maybeUpdateView() {
+    public void maybeUpdateView(@NonNull PipelineDraweeControllerBuilder builder) {
         if (!mIsDirty) {
             return;
         }
@@ -153,6 +138,7 @@ public class PhotoView extends PhotoDraweeView {
                         ? mFadeDurationMs
                         : mIsLocalImage ? 0 : REMOTE_IMAGE_FADE_DURATION_MS);
 
+        mDraweeControllerBuilder = builder;
         mDraweeControllerBuilder.setUri(mUri);
         mDraweeControllerBuilder.setOldController(getController());
         mDraweeControllerBuilder.setControllerListener(new BaseControllerListener<ImageInfo>() {

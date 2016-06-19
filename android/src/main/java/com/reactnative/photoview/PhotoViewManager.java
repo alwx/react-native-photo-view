@@ -17,13 +17,11 @@ import java.util.Map;
  * @version 1.0
  */
 public class PhotoViewManager extends SimpleViewManager<PhotoView> {
-    private static final String REACT_CLASS = "PhotoViewManager";
+    private static final String REACT_CLASS = "PhotoViewAndroid";
 
-    private PipelineDraweeControllerBuilder mDraweeControllerBuilder;
     private ResourceDrawableIdHelper mResourceDrawableIdHelper;
 
     PhotoViewManager(ReactApplicationContext context) {
-        mDraweeControllerBuilder = Fresco.newDraweeControllerBuilder();
         mResourceDrawableIdHelper = new ResourceDrawableIdHelper();
     }
 
@@ -38,8 +36,8 @@ public class PhotoViewManager extends SimpleViewManager<PhotoView> {
     }
 
     @ReactProp(name = "src")
-    public void setSource(final PhotoView view, @Nullable String source) {
-        view.setSource(source, mDraweeControllerBuilder, mResourceDrawableIdHelper);
+    public void setSource(PhotoView view, @Nullable String source) {
+        view.setSource(source, mResourceDrawableIdHelper);
     }
 
     @ReactProp(name = "loadingIndicatorSrc")
@@ -121,6 +119,6 @@ public class PhotoViewManager extends SimpleViewManager<PhotoView> {
     @Override
     protected void onAfterUpdateTransaction(PhotoView view) {
         super.onAfterUpdateTransaction(view);
-        view.maybeUpdateView();
+        view.maybeUpdateView(Fresco.newDraweeControllerBuilder());
     }
 }
