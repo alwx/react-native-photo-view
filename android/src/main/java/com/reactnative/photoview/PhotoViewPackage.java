@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author alwx (https://github.com/alwx)
+ * @version 1.0
+ */
 public class PhotoViewPackage implements ReactPackage {
-
     @Override
     public List<Class<? extends JavaScriptModule>> createJSModules() {
         return Collections.emptyList();
@@ -20,7 +23,7 @@ public class PhotoViewPackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         List<ViewManager> viewManagers = new ArrayList<>();
-        viewManagers.add(new PhotoViewModule(reactContext));
+        viewManagers.add(new PhotoViewManager(reactContext));
         return viewManagers;
     }
 
