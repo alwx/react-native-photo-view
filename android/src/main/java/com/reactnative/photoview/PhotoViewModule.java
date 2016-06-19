@@ -1,6 +1,8 @@
 package com.reactnative.photoview;
 
 import android.graphics.drawable.Animatable;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.controller.BaseControllerListener;
@@ -53,6 +55,39 @@ public class PhotoViewModule extends SimpleViewManager<PhotoDraweeView> {
             }
         });
         view.setController(mController.build());
+    }
+
+    @ReactProp(name = "scaleType")
+    public void setScaleType(PhotoDraweeView view, String scaleType) {
+        ScaleType value = ScaleType.CENTER;
+
+        switch (scaleType) {
+            case "center":
+                value = ScaleType.CENTER;
+                break;
+            case "centerCrop":
+                value = ScaleType.CENTER_CROP;
+                break;
+            case "centerInside":
+                value = ScaleType.CENTER_INSIDE;
+                break;
+            case "fitCenter":
+                value = ScaleType.FIT_CENTER;
+                break;
+            case "fitStart":
+                value = ScaleType.FIT_START;
+                break;
+            case "fitEnd":
+                value = ScaleType.FIT_END;
+                break;
+            case "fitXY":
+                value = ScaleType.FIT_XY;
+                break;
+            case "matrix":
+                value = ScaleType.MATRIX;
+                break;
+        }
+        view.setScaleType(value);
     }
 
 }
