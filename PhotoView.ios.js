@@ -11,9 +11,9 @@ export default class PhotoView extends Component {
         return (
             <View style={{flex:1}}>
                 <ScrollView
+                    contentContainerStyle={{ alignItems:'center', justifyContent:'center'}}
                     maximumZoomScale={this.props.maximumZoomScale}
-                    minimumZoomScale={this.props.minimumZoomScale}
-                    contentContainerStyle={{ alignItems:'center', justifyContent:'center'}}>
+                    minimumZoomScale={this.props.minimumZoomScale}>
                     <Image {...this.props}/>
                 </ScrollView>
             </View>
