@@ -84,7 +84,7 @@ dependencies {
 
 Next, you need to change the `MainActivity` of your app to register `ReactImageZoom` :
 ```java
-import me.alwx.reactnative.PhotoViewPackage;
+import com.reactnative.photoview.PhotoViewPackage;
 
 // ...
 
