@@ -22,7 +22,7 @@ Basics:
   maximumZoomScale={3}
   androidScaleType="center"
   onLoad={() => console.log("Image loaded!")}
-</Image>
+</PhotoView>
 ```
 
 ## Properties
