@@ -107,6 +107,7 @@ public class PhotoView extends PhotoDraweeView {
                         eventDispatcher.dispatchEvent(
                                 new ImageEvent(getId(), SystemClock.nanoTime(), ImageEvent.ON_LOAD_END)
                         );
+                        update(imageInfo.getWidth(), imageInfo.getHeight());
                     }
                 }
 
