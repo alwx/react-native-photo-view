@@ -15,14 +15,12 @@ import PhotoView from 'react-native-photo-view';
 Basics:
 ```javascript
 <PhotoView
-  source={{
-    uri: "http://c1.staticflickr.com/8/7412/27488731000_96ad0b9740_k.jpg"
-  }}>
+  source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
   minimumZoomScale={0.5}
   maximumZoomScale={3}
   androidScaleType="center"
   onLoad={() => console.log("Image loaded!")}
-</PhotoView>
+  style={{width: 300, height: 300}} />
 ```
 
 ## Properties
@@ -53,13 +51,14 @@ important callbacks out-of-box and it is, actually, recommended by Chris Banes, 
 support Facebook Fresco;
 * PhotoView has more options like fadeDuration and minimumZoomScale/maximumZoomScale and more important callbacks;
 * PhotoView is written in the same manner as default React Image, and it supports most of the
-features Image has (the goal is to be fully compaitable with Image and support absolutely everything).
+features Image has (the goal is to be fully compaitable with Image and support absolutely everything);
+* It is possible to use PhotoView as a container (currently iOS only)!
 
 ## Automatic installation
 
 Just two simple steps:
 ```
-npm install --save react-native-photo-view@1.0.0
+npm install --save react-native-photo-view@1.0.1
 ```
 ```
 rnpm link react-native-photo-view
