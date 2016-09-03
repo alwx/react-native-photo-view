@@ -34,10 +34,6 @@ export default class PhotoView extends Component {
         ...View.propTypes
     };
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const source = resolveAssetSource(this.props.source);
         var loadingIndicatorSource = resolveAssetSource(this.props.loadingIndicatorSource);
@@ -60,7 +56,6 @@ export default class PhotoView extends Component {
                 loadingIndicatorSrc: loadingIndicatorSource ? loadingIndicatorSource.uri : null,
             };
 
-            console.log(JSON.stringify(nativeProps))
             return <PhotoViewAndroid {...nativeProps} />
         }
         return null
