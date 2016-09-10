@@ -70,7 +70,7 @@ rnpm link react-native-photo-view
 1. Add these lines to `android/settings.gradle`
 ```
 include ':react-native-photo-view'
-project(':react-native-photo-view').projectDir = file('../node_modules/react-native-photo-view/android')
+project(':react-native-photo-view').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-photo-view/android')
 ```
 
 2. Add one more dependency to `android/app/build.gradle`
