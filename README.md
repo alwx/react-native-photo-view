@@ -34,7 +34,7 @@ Basics:
 | maximumZoomScale | float | The maximum allowed zoom scale. The default value is 3.0 |
 | scale | float | Set zoom scale programmatically |
 androidZoomTransitionDuration | int | **Android only**: Double-tap zoom transition duration |
-| androidScaleType | String | **Android only**: One of the default *Android* scale types: "center", "centerCrop", "centerInside", "fitCenter", "fitStart", "fitEnd", "fitXY", or "matrix" |
+| androidScaleType | String | **Android only**: One of the default *Android* scale types: "center", "centerCrop", "centerInside", "fitCenter", "fitStart", "fitEnd", "fitXY" |
 | onLoadStart | func | Callback function |
 | onLoad | func | Callback function |
 | onLoadEnd | func | Callback function |
@@ -59,7 +59,7 @@ features Image has (the goal is to be fully compaitable with Image and support a
 
 Just two simple steps:
 ```
-npm install --save react-native-photo-view@1.0.1
+npm install --save react-native-photo-view@1.2.0
 ```
 ```
 rnpm link react-native-photo-view
@@ -82,7 +82,7 @@ dependencies {
 
 3. Add it to your `MainActivity.java`
 
-Next, you need to change the `MainActivity` of your app to register `ReactImageZoom` :
+Next, you need to change the `MainActivity` of your app to register `PhotoViewPackage` :
 ```java
 import com.reactnative.photoview.PhotoViewPackage;
 
