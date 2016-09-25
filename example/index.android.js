@@ -12,6 +12,8 @@ class example extends Component {
             <View style={styles.container}>
                 <PhotoView
                     source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+                    onLoad={() => console.log("onLoad called")}
+                    onTap={() => console.log("onTap called")}
                     minimumZoomScale={0.5}
                     maximumZoomScale={3}
                     androidScaleType="center"

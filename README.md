@@ -38,7 +38,7 @@ androidZoomTransitionDuration | int | **Android only**: Double-tap zoom transiti
 | onLoadStart | func | Callback function |
 | onLoad | func | Callback function |
 | onLoadEnd | func | Callback function |
-| onTap | func | Callback function. Currently **Android only** (will be available for iOS later) |
+| onTap | func | Callback function (called on image tap) |
 | onViewTap | func | Callback function (called on tap outside of image). Currently **Android only** (will be available for iOS later) |
 | onScale | func | Callback function. Currently **Android only** (will be available for iOS later) |
 
