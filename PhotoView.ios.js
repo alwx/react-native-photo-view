@@ -14,8 +14,8 @@ export default class PhotoView extends Component {
                 centerContent={true}
                 maximumZoomScale={this.props.maximumZoomScale}
                 minimumZoomScale={this.props.minimumZoomScale} 
-                showsHorizontalScrollIndicator={this.props.showsHorizontalScrollIndicator} 
-                showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator} 
+                showsHorizontalScrollIndicator={this.props.showsHorizontalScrollIndicator || true} 
+                showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator || true} 
                 >
 
                 <TouchableWithoutFeedback
