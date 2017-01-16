@@ -141,6 +141,7 @@ public class PhotoView extends PhotoDraweeView {
 
         mDraweeControllerBuilder = builder;
         mDraweeControllerBuilder.setUri(mUri);
+        mDraweeControllerBuilder.setAutoPlayAnimations(true);
         mDraweeControllerBuilder.setOldController(getController());
         mDraweeControllerBuilder.setControllerListener(new BaseControllerListener<ImageInfo>() {
             @Override
