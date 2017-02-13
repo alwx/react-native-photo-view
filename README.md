@@ -82,9 +82,9 @@ dependencies {
 }
 ```
 
-3. Add it to your `MainActivity.java`
+3. Add it to your `MainActivity.java` for RN < 0.29 and to your `MainApplication.java` for RN >=0.29
 
-Next, you need to change the `MainActivity` of your app to register `PhotoViewPackage` :
+To register `PhotoViewPackage`, you need to change the `MainActivity` or `MainApplication` depending on React Native version of your app:
 ```java
 import com.reactnative.photoview.PhotoViewPackage;
 
