@@ -50,11 +50,24 @@ export default class PhotoView extends Component {
             var {onLoadStart, onLoad, onLoadEnd} = this.props;
 
             var nativeProps = {
+                onPhotoViewerLoadStart: this.props.onLoadStart,
+                onPhotoViewerLoad: this.props.onLoad,
+                onPhotoViewerLoadEnd: this.props.onLoadEnd,
+                onPhotoViewerTap: this.props.onTap,
+                onPhotoViewerViewTap: this.props.onViewTap,
+                onPhotoViewerScale: this.props.onScale,
                 ...this.props,
                 shouldNotifyLoadEvents: !!(onLoadStart || onLoad || onLoadEnd),
                 src: source.uri,
                 loadingIndicatorSrc: loadingIndicatorSource ? loadingIndicatorSource.uri : null,
             };
+
+          delete nativeProps.onLoadStart;
+          delete nativeProps.onLoad;
+          delete nativeProps.onLoadEnd;
+          delete nativeProps.onTap;
+          delete nativeProps.onViewTap;
+          delete nativeProps.onScale;
 
             return <PhotoViewAndroid {...nativeProps} />
         }
