@@ -174,6 +174,7 @@ public class PhotoView extends PhotoDraweeView {
                 WritableMap scaleChange = Arguments.createMap();
                 scaleChange.putDouble("x", x);
                 scaleChange.putDouble("y", y);
+                scaleChange.putDouble("scale", PhotoView.this.getScale());
                 eventDispatcher.dispatchEvent(
                         new ImageEvent(getId(), ImageEvent.ON_TAP).setExtras(scaleChange)
                 );
