@@ -200,7 +200,7 @@ public class PhotoView extends PhotoDraweeView {
                 scaleChange.putDouble("x", x);
                 scaleChange.putDouble("y", y);
                 eventDispatcher.dispatchEvent(
-                        new ImageEvent(getId(), ImageEvent.ON_TAP).setExtras(scaleChange)
+                        new ImageEvent(getId(), ImageEvent.ON_VIEW_TAP).setExtras(scaleChange)
                 );
             }
         });
