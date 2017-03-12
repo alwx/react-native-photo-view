@@ -185,6 +185,7 @@ public class PhotoView extends PhotoDraweeView {
             @Override
             public void onScaleChange(float scaleFactor, float focusX, float focusY) {
                 WritableMap scaleChange = Arguments.createMap();
+                scaleChange.putDouble("scale", PhotoView.this.getScale());
                 scaleChange.putDouble("scaleFactor", scaleFactor);
                 scaleChange.putDouble("focusX", focusX);
                 scaleChange.putDouble("focusY", focusY);
