@@ -174,6 +174,7 @@ public class PhotoView extends PhotoDraweeView {
                 WritableMap scaleChange = Arguments.createMap();
                 scaleChange.putDouble("x", x);
                 scaleChange.putDouble("y", y);
+                scaleChange.putDouble("scale", PhotoView.this.getScale());
                 eventDispatcher.dispatchEvent(
                         new ImageEvent(getId(), ImageEvent.ON_TAP).setExtras(scaleChange)
                 );
@@ -184,6 +185,7 @@ public class PhotoView extends PhotoDraweeView {
             @Override
             public void onScaleChange(float scaleFactor, float focusX, float focusY) {
                 WritableMap scaleChange = Arguments.createMap();
+                scaleChange.putDouble("scale", PhotoView.this.getScale());
                 scaleChange.putDouble("scaleFactor", scaleFactor);
                 scaleChange.putDouble("focusX", focusX);
                 scaleChange.putDouble("focusY", focusY);
@@ -200,7 +202,7 @@ public class PhotoView extends PhotoDraweeView {
                 scaleChange.putDouble("x", x);
                 scaleChange.putDouble("y", y);
                 eventDispatcher.dispatchEvent(
-                        new ImageEvent(getId(), ImageEvent.ON_TAP).setExtras(scaleChange)
+                        new ImageEvent(getId(), ImageEvent.ON_VIEW_TAP).setExtras(scaleChange)
                 );
             }
         });
