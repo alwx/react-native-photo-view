@@ -13,10 +13,14 @@ import com.facebook.drawee.drawable.AutoRotateDrawable;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.SystemClock;
+import com.facebook.react.modules.fresco.ReactNetworkImageRequest;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.events.EventDispatcher;
 import me.relex.photodraweeview.OnPhotoTapListener;
@@ -34,6 +38,7 @@ import static com.facebook.react.views.image.ReactImageView.REMOTE_IMAGE_FADE_DU
  */
 public class PhotoView extends PhotoDraweeView {
     private Uri mUri;
+    private ReadableMap mHeaders;
     private boolean mIsDirty;
     private boolean mIsLocalImage;
     private Drawable mLoadingImageDrawable;
@@ -45,21 +50,25 @@ public class PhotoView extends PhotoDraweeView {
         super(context);
     }
 
-    public void setSource(@Nullable String source,
+    public void setSource(@Nullable ReadableMap source,
                           @NonNull ResourceDrawableIdHelper resourceDrawableIdHelper) {
         mUri = null;
         if (source != null) {
+            String uri = source.getString("uri");
             try {
-                mUri = Uri.parse(source);
+                mUri = Uri.parse(uri);
                 // Verify scheme is set, so that relative uri (used by static resources) are not handled.
                 if (mUri.getScheme() == null) {
                     mUri = null;
+                }
+                if (source.hasKey("headers")) {
+                    mHeaders = source.getMap("headers");
                 }
             } catch (Exception e) {
                 // ignore malformed uri, then attempt to extract resource ID.
             }
             if (mUri == null) {
-                mUri = resourceDrawableIdHelper.getResourceDrawableUri(getContext(), source);
+                mUri = resourceDrawableIdHelper.getResourceDrawableUri(getContext(), uri);
                 mIsLocalImage = true;
             } else {
                 mIsLocalImage = false;
@@ -139,8 +148,14 @@ public class PhotoView extends PhotoDraweeView {
                         ? mFadeDurationMs
                         : mIsLocalImage ? 0 : REMOTE_IMAGE_FADE_DURATION_MS);
 
+        ImageRequestBuilder imageRequestBuilder = ImageRequestBuilder.newBuilderWithSource(mUri)
+                .setAutoRotateEnabled(true);
+
+        ImageRequest imageRequest = ReactNetworkImageRequest
+                .fromBuilderWithHeaders(imageRequestBuilder, mHeaders);
+
         mDraweeControllerBuilder = builder;
-        mDraweeControllerBuilder.setUri(mUri);
+        mDraweeControllerBuilder.setImageRequest(imageRequest);
         mDraweeControllerBuilder.setAutoPlayAnimations(true);
         mDraweeControllerBuilder.setOldController(getController());
         mDraweeControllerBuilder.setControllerListener(new BaseControllerListener<ImageInfo>() {

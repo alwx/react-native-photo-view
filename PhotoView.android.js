@@ -58,7 +58,7 @@ export default class PhotoView extends Component {
                 onPhotoViewerScale: this.props.onScale,
                 ...this.props,
                 shouldNotifyLoadEvents: !!(onLoadStart || onLoad || onLoadEnd),
-                src: source.uri,
+                src: source,
                 loadingIndicatorSrc: loadingIndicatorSource ? loadingIndicatorSource.uri : null,
             };
 
