@@ -18,7 +18,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class ImageEvent extends Event<ImageEvent> {
-  @IntDef({ON_ERROR, ON_LOAD, ON_LOAD_END, ON_LOAD_START, ON_TAP, ON_VIEW_TAP, ON_SCALE})
+  @IntDef({ON_ERROR, ON_LOAD, ON_LOAD_END, ON_LOAD_START, ON_TAP, ON_VIEW_TAP, ON_SCALE, ON_PROGRESS})
   @Retention(RetentionPolicy.SOURCE)
   @interface ImageEventType {}
 
@@ -29,6 +29,7 @@ public class ImageEvent extends Event<ImageEvent> {
   public static final int ON_TAP = 5;
   public static final int ON_VIEW_TAP = 6;
   public static final int ON_SCALE = 7;
+  public static final int ON_PROGRESS = 8;
 
   private final int mEventType;
   private WritableMap mMap;
@@ -55,6 +56,8 @@ public class ImageEvent extends Event<ImageEvent> {
         return "topViewTap";
       case ON_SCALE:
         return "topScale";
+      case ON_PROGRESS:
+        return "topProgress";
       default:
         throw new IllegalStateException("Invalid image event: " + Integer.toString(eventType));
     }

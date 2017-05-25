@@ -1,6 +1,8 @@
 package com.reactnative.photoview;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -16,7 +18,6 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.common.SystemClock;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.events.EventDispatcher;
 import me.relex.photodraweeview.OnPhotoTapListener;
@@ -72,7 +73,7 @@ public class PhotoView extends PhotoDraweeView {
                                           ResourceDrawableIdHelper resourceDrawableIdHelper) {
         Drawable drawable = resourceDrawableIdHelper.getResourceDrawable(getContext(), name);
         mLoadingImageDrawable =
-                drawable != null ? (Drawable) new AutoRotateDrawable(drawable, 1000) : null;
+            drawable != null ? (Drawable) new AutoRotateDrawable(drawable, 1000) : null;
         mIsDirty = true;
     }
 
@@ -86,26 +87,26 @@ public class PhotoView extends PhotoDraweeView {
             mControllerListener = null;
         } else {
             final EventDispatcher eventDispatcher = ((ReactContext) getContext())
-                    .getNativeModule(UIManagerModule.class).getEventDispatcher();
+                .getNativeModule(UIManagerModule.class).getEventDispatcher();
             mControllerListener = new BaseControllerListener<ImageInfo>() {
                 @Override
                 public void onSubmit(String id, Object callerContext) {
                     eventDispatcher.dispatchEvent(
-                            new ImageEvent(getId(), ImageEvent.ON_LOAD_START)
+                        new ImageEvent(getId(), ImageEvent.ON_LOAD_START)
                     );
                 }
 
                 @Override
                 public void onFinalImageSet(
-                        String id,
-                        @Nullable final ImageInfo imageInfo,
-                        @Nullable Animatable animatable) {
+                    String id,
+                    @Nullable final ImageInfo imageInfo,
+                    @Nullable Animatable animatable) {
                     if (imageInfo != null) {
                         eventDispatcher.dispatchEvent(
-                                new ImageEvent(getId(), ImageEvent.ON_LOAD)
+                            new ImageEvent(getId(), ImageEvent.ON_LOAD)
                         );
                         eventDispatcher.dispatchEvent(
-                                new ImageEvent(getId(), ImageEvent.ON_LOAD_END)
+                            new ImageEvent(getId(), ImageEvent.ON_LOAD_END)
                         );
                         update(imageInfo.getWidth(), imageInfo.getHeight());
                     }
@@ -114,10 +115,10 @@ public class PhotoView extends PhotoDraweeView {
                 @Override
                 public void onFailure(String id, Throwable throwable) {
                     eventDispatcher.dispatchEvent(
-                            new ImageEvent(getId(), ImageEvent.ON_ERROR)
+                        new ImageEvent(getId(), ImageEvent.ON_ERROR)
                     );
                     eventDispatcher.dispatchEvent(
-                            new ImageEvent(getId(), ImageEvent.ON_LOAD_END)
+                        new ImageEvent(getId(), ImageEvent.ON_LOAD_END)
                     );
                 }
             };
@@ -131,17 +132,18 @@ public class PhotoView extends PhotoDraweeView {
         }
 
         GenericDraweeHierarchy hierarchy = getHierarchy();
+        hierarchy.setProgressBarImage(new ImageLoadingDrawable());
         if (mLoadingImageDrawable != null) {
             hierarchy.setPlaceholderImage(mLoadingImageDrawable, ScalingUtils.ScaleType.CENTER);
         }
         hierarchy.setFadeDuration(
-                mFadeDurationMs >= 0
-                        ? mFadeDurationMs
-                        : mIsLocalImage ? 0 : REMOTE_IMAGE_FADE_DURATION_MS);
+            mFadeDurationMs >= 0
+                ? mFadeDurationMs
+                : mIsLocalImage ? 0 : REMOTE_IMAGE_FADE_DURATION_MS);
+        setHierarchy(hierarchy);
 
         mDraweeControllerBuilder = builder;
         mDraweeControllerBuilder.setUri(mUri);
-        mDraweeControllerBuilder.setAutoPlayAnimations(true);
         mDraweeControllerBuilder.setOldController(getController());
         mDraweeControllerBuilder.setControllerListener(new BaseControllerListener<ImageInfo>() {
             @Override
@@ -166,7 +168,7 @@ public class PhotoView extends PhotoDraweeView {
 
     private void setViewCallbacks() {
         final EventDispatcher eventDispatcher = ((ReactContext) getContext())
-                .getNativeModule(UIManagerModule.class).getEventDispatcher();
+            .getNativeModule(UIManagerModule.class).getEventDispatcher();
 
         setOnPhotoTapListener(new OnPhotoTapListener() {
             @Override
@@ -174,9 +176,8 @@ public class PhotoView extends PhotoDraweeView {
                 WritableMap scaleChange = Arguments.createMap();
                 scaleChange.putDouble("x", x);
                 scaleChange.putDouble("y", y);
-                scaleChange.putDouble("scale", PhotoView.this.getScale());
                 eventDispatcher.dispatchEvent(
-                        new ImageEvent(getId(), ImageEvent.ON_TAP).setExtras(scaleChange)
+                    new ImageEvent(getId(), ImageEvent.ON_TAP).setExtras(scaleChange)
                 );
             }
         });
@@ -185,12 +186,11 @@ public class PhotoView extends PhotoDraweeView {
             @Override
             public void onScaleChange(float scaleFactor, float focusX, float focusY) {
                 WritableMap scaleChange = Arguments.createMap();
-                scaleChange.putDouble("scale", PhotoView.this.getScale());
                 scaleChange.putDouble("scaleFactor", scaleFactor);
                 scaleChange.putDouble("focusX", focusX);
                 scaleChange.putDouble("focusY", focusY);
                 eventDispatcher.dispatchEvent(
-                        new ImageEvent(getId(), ImageEvent.ON_SCALE).setExtras(scaleChange)
+                    new ImageEvent(getId(), ImageEvent.ON_SCALE).setExtras(scaleChange)
                 );
             }
         });
@@ -202,9 +202,53 @@ public class PhotoView extends PhotoDraweeView {
                 scaleChange.putDouble("x", x);
                 scaleChange.putDouble("y", y);
                 eventDispatcher.dispatchEvent(
-                        new ImageEvent(getId(), ImageEvent.ON_VIEW_TAP).setExtras(scaleChange)
+                    new ImageEvent(getId(), ImageEvent.ON_TAP).setExtras(scaleChange)
                 );
             }
         });
+    }
+
+    class ImageLoadingDrawable extends Drawable {
+
+        private final EventDispatcher eventDispatcher;
+
+        public ImageLoadingDrawable() {
+            eventDispatcher = ((ReactContext) getContext())
+                .getNativeModule(UIManagerModule.class).getEventDispatcher();
+        }
+
+        @Override
+        public void draw(Canvas canvas) {
+
+        }
+
+        @Override
+        protected boolean onLevelChange(int level) {
+            if (level > 0 && level < 10000) {
+
+                WritableMap progress = Arguments.createMap();
+                progress.putDouble("loaded", level);
+                progress.putDouble("total", 10000);
+                eventDispatcher.dispatchEvent(
+                    new ImageEvent(getId(), ImageEvent.ON_PROGRESS).setExtras(progress)
+                );
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public void setAlpha(int alpha) {
+        }
+
+        @Override
+        public void setColorFilter(ColorFilter cf) {
+        }
+
+        @Override
+        public int getOpacity() {
+            return 0;
+        }
     }
 }
