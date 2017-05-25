@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {requireNativeComponent, View} from 'react-native';
-import ViewPropTypes from 'react-native/Libraries/Components/View/ViewPropTypes';
 
 const resolveAssetSource = require('react-native/Libraries/Image/resolveAssetSource');
 
@@ -29,51 +28,39 @@ export default class PhotoView extends Component {
         onLoadStart: PropTypes.func,
         onLoad: PropTypes.func,
         onLoadEnd: PropTypes.func,
+        onProgress: PropTypes.func,
         onTap: PropTypes.func,
         onViewTap: PropTypes.func,
         onScale: PropTypes.func,
-        ...ViewPropTypes
+        ...View.propTypes
+};
+
+render() {
+    const source = resolveAssetSource(this.props.source);
+    var loadingIndicatorSource = resolveAssetSource(this.props.loadingIndicatorSource);
+
+    if (source && source.uri === '') {
+        console.warn('source.uri should not be an empty string');
+    }
+
+    if (this.props.src) {
+        console.warn('The <PhotoView> component requires a `source` property rather than `src`.');
+    }
+
+    if (source && source.uri) {
+        var {onLoadStart, onLoad, onLoadEnd} = this.props;
+
+        var nativeProps = {
+                ...this.props,
+            shouldNotifyLoadEvents: !!(onLoadStart || onProgress || onLoad || onLoadEnd),
+            src: source.uri,
+            loadingIndicatorSrc: loadingIndicatorSource ? loadingIndicatorSource.uri : null,
     };
 
-    render() {
-        const source = resolveAssetSource(this.props.source);
-        var loadingIndicatorSource = resolveAssetSource(this.props.loadingIndicatorSource);
-
-        if (source && source.uri === '') {
-            console.warn('source.uri should not be an empty string');
-        }
-
-        if (this.props.src) {
-            console.warn('The <PhotoView> component requires a `source` property rather than `src`.');
-        }
-
-        if (source && source.uri) {
-            var {onLoadStart, onLoad, onLoadEnd} = this.props;
-
-            var nativeProps = {
-                onPhotoViewerLoadStart: this.props.onLoadStart,
-                onPhotoViewerLoad: this.props.onLoad,
-                onPhotoViewerLoadEnd: this.props.onLoadEnd,
-                onPhotoViewerTap: this.props.onTap,
-                onPhotoViewerViewTap: this.props.onViewTap,
-                onPhotoViewerScale: this.props.onScale,
-                ...this.props,
-                shouldNotifyLoadEvents: !!(onLoadStart || onLoad || onLoadEnd),
-                src: source.uri,
-                loadingIndicatorSrc: loadingIndicatorSource ? loadingIndicatorSource.uri : null,
-            };
-
-          delete nativeProps.onLoadStart;
-          delete nativeProps.onLoad;
-          delete nativeProps.onLoadEnd;
-          delete nativeProps.onTap;
-          delete nativeProps.onViewTap;
-          delete nativeProps.onScale;
-
-            return <PhotoViewAndroid {...nativeProps} />
-        }
-        return null
+        return <PhotoViewAndroid {...nativeProps} />
     }
+    return null
+}
 }
 
 var cfg = {
