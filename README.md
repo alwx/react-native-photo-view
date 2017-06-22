@@ -61,7 +61,7 @@ features Image has (the goal is to be fully compaitable with Image and support a
 
 Just two simple steps:
 ```
-npm install --save react-native-photo-view@1.2.0
+npm install --save react-native-photo-view
 ```
 ```
 rnpm link react-native-photo-view
