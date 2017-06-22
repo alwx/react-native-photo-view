@@ -42,19 +42,19 @@ public class ImageEvent extends Event<ImageEvent> {
   public static String eventNameForType(@ImageEventType int eventType) {
     switch(eventType) {
       case ON_ERROR:
-        return "topError";
+        return "photoViewError";
       case ON_LOAD:
-        return "topLoad";
+        return "photoViewLoad";
       case ON_LOAD_END:
-        return "topLoadEnd";
+        return "photoViewLoadEnd";
       case ON_LOAD_START:
-        return "topLoadStart";
+        return "photoViewLoadStart";
       case ON_TAP:
-        return "topTap";
+        return "photoViewTap";
       case ON_VIEW_TAP:
-        return "topViewTap";
+        return "photoViewViewTap";
       case ON_SCALE:
-        return "topScale";
+        return "photoViewScale";
       default:
         throw new IllegalStateException("Invalid image event: " + Integer.toString(eventType));
     }

@@ -6,6 +6,7 @@ import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -38,7 +39,7 @@ public class PhotoViewManager extends SimpleViewManager<PhotoView> {
     }
 
     @ReactProp(name = "src")
-    public void setSource(PhotoView view, @Nullable String source) {
+    public void setSource(PhotoView view, @Nullable ReadableMap source) {
         view.setSource(source, mResourceDrawableIdHelper);
     }
 
