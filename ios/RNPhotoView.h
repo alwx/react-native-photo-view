@@ -13,8 +13,8 @@
 @property (nonatomic, strong) NSDictionary *src;
 @property (nonatomic, strong) NSString *loadingIndicatorSrc;
 @property (nonatomic, assign) NSInteger scale;
-@property (nonatomic, assign) CGFloat maxZoomScale;
 @property (nonatomic, assign) CGFloat minZoomScale;
+@property (nonatomic, assign) CGFloat maxZoomScale;
 
 #pragma mark - Block
 

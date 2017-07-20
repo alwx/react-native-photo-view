@@ -30,6 +30,8 @@ export default class PhotoView extends Component {
         onTap: PropTypes.func,
         onViewTap: PropTypes.func,
         onScale: PropTypes.func,
+        showsHorizontalScrollIndicator: PropTypes.boolean,
+        showsVerticalScrollIndicator: PropTypes.boolean,
         ...ViewPropTypes
     };
 
@@ -56,7 +58,6 @@ export default class PhotoView extends Component {
                 onPhotoViewerViewTap: onViewTap,
                 onPhotoViewerScale: onScale,
                 ...props,
-                shouldNotifyLoadEvents: !!(onLoadStart || onLoad || onLoadEnd),
                 src: source,
                 loadingIndicatorSrc: loadingIndicatorSource ? loadingIndicatorSource.uri : null,
             };
@@ -69,14 +70,12 @@ export default class PhotoView extends Component {
 
 var cfg = {
     nativeOnly: {
-        shouldNotifyLoadEvents: true,
         onPhotoViewerLoadStart: true,
         onPhotoViewerLoad: true,
         onPhotoViewerLoadEnd: true,
         onPhotoViewerTap: true,
         onPhotoViewerViewTap: true,
         onPhotoViewerScale: true,
-        shouldNotifyLoadEvents: true,
         src: true,
         loadingIndicatorSrc: true
     }

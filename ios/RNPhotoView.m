@@ -363,12 +363,15 @@
 #pragma mark - Private
 
 - (void)initView {
+    _minZoomScale = 1.0;
+    _maxZoomScale = 3.0;
+    
     // Setup
     self.backgroundColor = [UIColor blackColor];
     self.delegate = self;
-    self.showsHorizontalScrollIndicator = NO;
-    self.showsVerticalScrollIndicator = NO;
     self.decelerationRate = UIScrollViewDecelerationRateFast;
+    self.showsVerticalScrollIndicator = YES;
+    self.showsHorizontalScrollIndicator = YES;
     
     // Tap view for background
     _tapView = [[MWTapDetectingView alloc] initWithFrame:self.bounds];

@@ -71,7 +71,6 @@ export default class PhotoView extends Component {
 
 var cfg = {
     nativeOnly: {
-        shouldNotifyLoadEvents: true,
         onPhotoViewerLoadStart: true,
         onPhotoViewerLoad: true,
         onPhotoViewerLoadEnd: true,
