@@ -7,16 +7,37 @@ import {
 import PhotoView from 'react-native-photo-view';
 
 class example extends Component {
+    _onScale = (event) => {
+      console.log('_onScale', event.nativeEvent);
+    };
+    _onTap = (event) => {
+        console.log('_onTap', event.nativeEvent);
+    };
+    _onViewTap = (event) => {
+        console.log('_onViewTap', event.nativeEvent);
+    };
+    _onLoadStart = (event) => {
+        console.log('_onLoadStart', event.nativeEvent);
+    };
+    _onLoad = (event) => {
+        console.log('_onLoad', event.nativeEvent);
+    };
+    _onLoadEnd = (event) => {
+        console.log('_onLoadEnd', event.nativeEvent);
+    };
     render() {
         return (
             <View style={styles.container}>
                 <PhotoView
                     source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
-                    onLoad={() => console.log("onLoad called")}
-                    onTap={() => console.log("onTap called")}
+                    onScale={this._onScale}
+                    onTap={this._onTap}
+                    onViewTap={this._onViewTap}
+                    onLoadStart={this._onLoadStart}
+                    onLoad={this._onLoad}
+                    onLoadEnd={this._onLoadEnd}
                     minimumZoomScale={0.5}
                     maximumZoomScale={3}
-                    androidScaleType="center"
                     style={styles.photo} />
             </View>
         );
@@ -34,7 +55,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 300,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'center'
     },
     text: {
         backgroundColor: "transparent",
