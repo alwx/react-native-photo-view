@@ -36,6 +36,8 @@ class example extends Component {
                     onLoadStart={this._onLoadStart}
                     onLoad={this._onLoad}
                     onLoadEnd={this._onLoadEnd}
+                    showsVerticalScrollIndicator={true}
+                    showsHorizontalScrollIndicator={true}
                     minimumZoomScale={0.5}
                     maximumZoomScale={3}
                     style={styles.photo} />
