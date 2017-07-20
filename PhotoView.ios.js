@@ -30,8 +30,8 @@ export default class PhotoView extends Component {
         onTap: PropTypes.func,
         onViewTap: PropTypes.func,
         onScale: PropTypes.func,
-        showsHorizontalScrollIndicator: PropTypes.boolean,
-        showsVerticalScrollIndicator: PropTypes.boolean,
+        showsHorizontalScrollIndicator: PropTypes.bool,
+        showsVerticalScrollIndicator: PropTypes.bool,
         ...ViewPropTypes
     };
 
