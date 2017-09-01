@@ -1,5 +1,6 @@
-import React, {Component, PropTypes} from 'react';
-import {requireNativeComponent, View} from 'react-native';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { requireNativeComponent, View } from 'react-native';
 import ViewPropTypes from 'react-native/Libraries/Components/View/ViewPropTypes';
 
 const resolveAssetSource = require('react-native/Libraries/Image/resolveAssetSource');
@@ -82,4 +83,5 @@ var cfg = {
         loadingIndicatorSrc: true
     }
 };
+
 const PhotoViewAndroid = requireNativeComponent('PhotoViewAndroid', PhotoView, cfg);

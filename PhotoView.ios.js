@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { requireNativeComponent, View } from 'react-native';
 import ViewPropTypes from 'react-native/Libraries/Components/View/ViewPropTypes';
 
@@ -80,4 +81,5 @@ var cfg = {
         loadingIndicatorSrc: true
     }
 };
+
 const RNPhotoView = requireNativeComponent('RNPhotoView', PhotoView, cfg);
