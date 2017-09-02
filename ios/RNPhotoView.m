@@ -294,11 +294,6 @@
     }
     _source = source;
     NSURL *imageURL = [NSURL URLWithString:uri];
-    UIImage *image = RCTImageFromLocalAssetURL(imageURL);
-    if (image) { // if local image
-        [self setImage:image];
-        return;
-    }
     
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:imageURL];
 
