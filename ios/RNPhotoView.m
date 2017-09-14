@@ -285,41 +285,43 @@
 #pragma mark - Setter
 
 - (void)setSource:(NSDictionary *)source {
-    if ([_source isEqualToDictionary:source]) {
-        return;
-    }
-    NSString *uri = source[@"uri"];
-    if (!uri) {
-        return;
-    }
-    _source = source;
-    NSURL *imageURL = [NSURL URLWithString:uri];
-    UIImage *image = RCTImageFromLocalAssetURL(imageURL);
-    if (image) { // if local image
-        [self setImage:image];
-        return;
-    }
-    
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:imageURL];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([_source isEqualToDictionary:source]) {
+            return;
+        }
+        NSString *uri = source[@"uri"];
+        if (!uri) {
+            return;
+        }
+        _source = source;
+        NSURL *imageURL = [NSURL URLWithString:uri];
+        UIImage *image = RCTImageFromLocalAssetURL(imageURL);
+        if (image) { // if local image
+            [self setImage:image];
+            return;
+        }
 
-    __weak RNPhotoView *weakSelf = self;
-    if (_onPhotoViewerLoadStart) {
-        _onPhotoViewerLoadStart(nil);
-    }
-    [_bridge.imageLoader loadImageWithURLRequest:request
-                                        callback:^(NSError *error, UIImage *image) {
-                                            if (image) {
-                                                dispatch_sync(dispatch_get_main_queue(), ^{
-                                                    [weakSelf setImage:image];
-                                                });
-                                                if (_onPhotoViewerLoad) {
-                                                    _onPhotoViewerLoad(nil);
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:imageURL];
+
+        __weak RNPhotoView *weakSelf = self;
+        if (_onPhotoViewerLoadStart) {
+            _onPhotoViewerLoadStart(nil);
+        }
+        [_bridge.imageLoader loadImageWithURLRequest:request
+                                            callback:^(NSError *error, UIImage *image) {
+                                                if (image) {
+                                                    dispatch_sync(dispatch_get_main_queue(), ^{
+                                                        [weakSelf setImage:image];
+                                                    });
+                                                    if (_onPhotoViewerLoad) {
+                                                        _onPhotoViewerLoad(nil);
+                                                    }
                                                 }
-                                            }
-                                            if (_onPhotoViewerLoadEnd) {
-                                                _onPhotoViewerLoadEnd(nil);
-                                            }
-                                        }];
+                                                if (_onPhotoViewerLoadEnd) {
+                                                    _onPhotoViewerLoadEnd(nil);
+                                                }
+                                            }];
+    });
 }
 
 - (void)setLoadingIndicatorSrc:(NSString *)loadingIndicatorSrc {
