@@ -39,6 +39,7 @@ androidZoomTransitionDuration | int | **Android only**: Double-tap zoom transiti
 | onLoadStart | func | Callback function |
 | onLoad | func | Callback function |
 | onLoadEnd | func | Callback function |
+| onProgress | func | **iOS only**: Callback function, invoked on download progress with {nativeEvent: {loaded, total}}. |
 | onTap | func | Callback function (called on image tap) |
 | onViewTap | func | Callback function (called on tap outside of image) |
 | onScale | func | Callback function |

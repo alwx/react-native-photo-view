@@ -24,6 +24,7 @@
 @property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerLoadStart;
 @property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerLoad;
 @property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerLoadEnd;
+@property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerProgress;
 
 - (instancetype)initWithBridge:(RCTBridge *)bridge;
 

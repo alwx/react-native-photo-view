@@ -307,8 +307,23 @@
         if (_onPhotoViewerLoadStart) {
             _onPhotoViewerLoadStart(nil);
         }
+
+        // use default values from [imageLoader loadImageWithURLRequest:request callback:callback] method
         [_bridge.imageLoader loadImageWithURLRequest:request
-                                            callback:^(NSError *error, UIImage *image) {
+                                        size:CGSizeZero
+                                       scale:1
+                                     clipped:YES
+                                  resizeMode:RCTResizeModeStretch
+                               progressBlock:^(int64_t progress, int64_t total) {
+                                   if (_onPhotoViewerProgress) {
+                                       _onPhotoViewerProgress(@{
+                                           @"loaded": @((double)progress),
+                                           @"total": @((double)total),
+                                       });
+                                   }
+                               }
+                            partialLoadBlock:nil
+                             completionBlock:^(NSError *error, UIImage *image) {
                                                 if (image) {
                                                     dispatch_sync(dispatch_get_main_queue(), ^{
                                                         [weakSelf setImage:image];
