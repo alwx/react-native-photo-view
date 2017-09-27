@@ -28,6 +28,7 @@ export default class PhotoView extends Component {
         onLoadStart: PropTypes.func,
         onLoad: PropTypes.func,
         onLoadEnd: PropTypes.func,
+        onProgress: PropTypes.func,
         onTap: PropTypes.func,
         onViewTap: PropTypes.func,
         onScale: PropTypes.func,
@@ -49,12 +50,13 @@ export default class PhotoView extends Component {
         }
 
         if (source && source.uri) {
-            var {onLoadStart, onLoad, onLoadEnd, onTap, onViewTap, onScale, ...props} = this.props;
+            var {onLoadStart, onLoad, onLoadEnd, onProgress, onTap, onViewTap, onScale, ...props} = this.props;
 
             var nativeProps = {
                 onPhotoViewerLoadStart: onLoadStart,
                 onPhotoViewerLoad: onLoad,
                 onPhotoViewerLoadEnd: onLoadEnd,
+                onPhotoViewerProgress: onProgress,
                 onPhotoViewerTap: onTap,
                 onPhotoViewerViewTap: onViewTap,
                 onPhotoViewerScale: onScale,
@@ -74,6 +76,7 @@ var cfg = {
         onPhotoViewerLoadStart: true,
         onPhotoViewerLoad: true,
         onPhotoViewerLoadEnd: true,
+        onPhotoViewerProgress: true,
         onPhotoViewerTap: true,
         onPhotoViewerViewTap: true,
         onPhotoViewerScale: true,
