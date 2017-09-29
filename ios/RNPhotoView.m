@@ -331,6 +331,10 @@
                                                     if (_onPhotoViewerLoad) {
                                                         _onPhotoViewerLoad(nil);
                                                     }
+                                                } else {
+                                                    if (_onPhotoViewerError) {
+                                                        _onPhotoViewerError(nil);
+                                                    }
                                                 }
                                                 if (_onPhotoViewerLoadEnd) {
                                                     _onPhotoViewerLoadEnd(nil);

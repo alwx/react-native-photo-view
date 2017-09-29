@@ -18,6 +18,7 @@
 
 #pragma mark - Block
 
+@property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerError;
 @property (nonatomic, copy) RCTDirectEventBlock onPhotoViewerScale;
 @property (nonatomic, copy) RCTBubblingEventBlock onPhotoViewerViewTap;
 @property (nonatomic, copy) RCTBubblingEventBlock onPhotoViewerTap;
