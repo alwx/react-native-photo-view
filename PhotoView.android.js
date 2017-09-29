@@ -28,6 +28,7 @@ export default class PhotoView extends Component {
         androidZoomTransitionDuration: PropTypes.number,
         androidScaleType: PropTypes.oneOf(["center", "centerCrop", "centerInside", "fitCenter", "fitStart", "fitEnd", "fitXY", "matrix"]),
         onLoadStart: PropTypes.func,
+        onError: PropTypes.func,
         onLoad: PropTypes.func,
         onLoadEnd: PropTypes.func,
         onTap: PropTypes.func,
@@ -49,9 +50,10 @@ export default class PhotoView extends Component {
         }
 
         if (source && source.uri) {
-            var {onLoadStart, onLoad, onLoadEnd, onTap, onViewTap, onScale, ...props} = this.props;
+            var {onLoadStart, onLoad, onLoadEnd, onTap, onViewTap, onScale, onError, ...props} = this.props;
 
             var nativeProps = {
+                onPhotoViewerError: onError,
                 onPhotoViewerLoadStart: onLoadStart,
                 onPhotoViewerLoad: onLoad,
                 onPhotoViewerLoadEnd: onLoadEnd,
@@ -72,6 +74,7 @@ export default class PhotoView extends Component {
 
 var cfg = {
     nativeOnly: {
+        onPhotoViewerError: true,
         onPhotoViewerLoadStart: true,
         onPhotoViewerLoad: true,
         onPhotoViewerLoadEnd: true,
