@@ -302,6 +302,17 @@
         }
 
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:imageURL];
+        
+        if (source[@"headers"]) {
+            NSMutableURLRequest *mutableRequest = [request mutableCopy];
+            
+            NSDictionary *headers = source[@"headers"];
+            NSEnumerator *enumerator = [headers keyEnumerator];
+            id key;
+            while((key = [enumerator nextObject]))
+                [mutableRequest addValue:[headers objectForKey:key] forHTTPHeaderField:key];
+            request = [mutableRequest copy];
+        }
 
         __weak RNPhotoView *weakSelf = self;
         if (_onPhotoViewerLoadStart) {
