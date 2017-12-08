@@ -15,6 +15,7 @@
 @property (nonatomic, assign) NSInteger scale;
 @property (nonatomic, assign) CGFloat minZoomScale;
 @property (nonatomic, assign) CGFloat maxZoomScale;
+@property (nonatomic, assign) BOOL allowsInitialPan;
 
 #pragma mark - Block
 

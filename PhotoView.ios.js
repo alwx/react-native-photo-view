@@ -24,6 +24,7 @@ export default class PhotoView extends Component {
         fadeDuration: PropTypes.number,
         minimumZoomScale: PropTypes.number,
         maximumZoomScale: PropTypes.number,
+        allowsInitialPan: PropTypes.bool,
         scale: PropTypes.number,
         onLoadStart: PropTypes.func,
         onLoad: PropTypes.func,
