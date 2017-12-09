@@ -31,6 +31,7 @@ Basics:
 | fadeDuration | int | duration of image fade (in ms) |
 | minimumZoomScale | float | The minimum allowed zoom scale. The default value is 1.0 |
 | maximumZoomScale | float | The maximum allowed zoom scale. The default value is 3.0 |
+| allowsInitialPan | bool | **iOS only**: When true, allows user to pan image before pinching first. The default value is false. |
 | showsHorizontalScrollIndicator | bool | **iOS only**: When true, shows a horizontal scroll indicator. The default value is true. |
 | showsVerticalScrollIndicator | bool | **iOS only**: When true, shows a vertical scroll indicator. The default value is true. |
 | scale | float | Set zoom scale programmatically |
