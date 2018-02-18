@@ -44,7 +44,7 @@
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    
+
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
@@ -52,7 +52,7 @@
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    
+
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
@@ -87,7 +87,7 @@
     touchY *= 1/self.zoomScale;
     touchX += self.contentOffset.x;
     touchY += self.contentOffset.y;
-    
+
     if (_onPhotoViewerTap) {
         _onPhotoViewerTap(@{
                             @"point": @{
@@ -114,7 +114,7 @@
     touchY *= 1/self.zoomScale;
     touchX += self.contentOffset.x;
     touchY += self.contentOffset.y;
-    
+
     if (_onPhotoViewerViewTap) {
         _onPhotoViewerViewTap(@{
                                 @"point": @{
@@ -160,27 +160,27 @@
 }
 
 - (void)setMaxMinZoomScalesForCurrentBounds {
-    
+
     // Reset
     self.maximumZoomScale = 1;
     self.minimumZoomScale = 1;
     self.zoomScale = 1;
-    
+
     // Bail if no image
     if (_photoImageView.image == nil) return;
-    
+
     // Reset position
     _photoImageView.frame = CGRectMake(0, 0, _photoImageView.frame.size.width, _photoImageView.frame.size.height);
-    
+
     // Sizes
     CGSize boundsSize = self.bounds.size;
     CGSize imageSize = _photoImageView.image.size;
-    
+
     // Calculate Min
     CGFloat xScale = boundsSize.width / imageSize.width;    // the scale needed to perfectly fit the image width-wise
     CGFloat yScale = boundsSize.height / imageSize.height;  // the scale needed to perfectly fit the image height-wise
     CGFloat minScale = MIN(xScale, yScale);                 // use minimum of these to allow the image to become fully visible
-    
+
     /**
      [attention]
      original maximumZoomScale and minimumZoomScale is scaled to image,
@@ -189,59 +189,59 @@
      */
     CGFloat maxScale = minScale * _maxZoomScale;
     minScale = minScale * _minZoomScale;
-    
+
     // Set min/max zoom
     self.maximumZoomScale = maxScale;
     self.minimumZoomScale = minScale;
-    
+
     // Initial zoom
     self.zoomScale = [self initialZoomScaleWithMinScale];
-    
+
     // If we're zooming to fill then centralise
     if (self.zoomScale != minScale) {
-        
+
         // Centralise
         self.contentOffset = CGPointMake((imageSize.width * self.zoomScale - boundsSize.width) / 2.0,
                                          (imageSize.height * self.zoomScale - boundsSize.height) / 2.0);
-        
+
     }
-    
+
     // Disable scrolling initially until the first pinch to fix issues with swiping on an initally zoomed in photo
     self.scrollEnabled = NO;
-    
+
     // Layout
     [self setNeedsLayout];
-    
+
 }
 
 #pragma mark - Layout
 
 - (void)layoutSubviews {
-    
+
     // Update tap view frame
     _tapView.frame = self.bounds;
-    
+
     // Super
     [super layoutSubviews];
-    
+
     // Center the image as it becomes smaller than the size of the screen
     CGSize boundsSize = self.bounds.size;
     CGRect frameToCenter = _photoImageView.frame;
-    
+
     // Horizontally
     if (frameToCenter.size.width < boundsSize.width) {
         frameToCenter.origin.x = floorf((boundsSize.width - frameToCenter.size.width) / 2.0);
     } else {
         frameToCenter.origin.x = 0;
     }
-    
+
     // Vertically
     if (frameToCenter.size.height < boundsSize.height) {
         frameToCenter.origin.y = floorf((boundsSize.height - frameToCenter.size.height) / 2.0);
     } else {
         frameToCenter.origin.y = 0;
     }
-    
+
     // Center
     if (!CGRectEqualToRect(_photoImageView.frame, frameToCenter))
         _photoImageView.frame = frameToCenter;
@@ -258,24 +258,24 @@
 // Get and display image
 - (void)displayWithImage:(UIImage*)image {
     if (image && !_photoImageView.image) {
-        
+
         // Reset
 //        self.maximumZoomScale = 1;
 //        self.minimumZoomScale = 1;
         self.zoomScale = 1;
         self.contentSize = CGSizeMake(0, 0);
-        
+
         // Set image
         _photoImageView.image = image;
         _photoImageView.hidden = NO;
-        
+
         // Setup photo frame
         CGRect photoImageViewFrame;
         photoImageViewFrame.origin = CGPointZero;
         photoImageViewFrame.size = image.size;
         _photoImageView.frame = photoImageViewFrame;
         self.contentSize = photoImageViewFrame.size;
-        
+
         // Set zoom to minimum zoom
         [self setMaxMinZoomScalesForCurrentBounds];
         [self setNeedsLayout];
@@ -386,24 +386,24 @@
 - (void)initView {
     _minZoomScale = 1.0;
     _maxZoomScale = 5.0;
-    
+
     // Setup
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor clearColor];
     self.delegate = self;
     self.decelerationRate = UIScrollViewDecelerationRateFast;
     self.showsVerticalScrollIndicator = YES;
     self.showsHorizontalScrollIndicator = YES;
-    
+
     // Tap view for background
     _tapView = [[MWTapDetectingView alloc] initWithFrame:self.bounds];
     _tapView.tapDelegate = self;
     _tapView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    _tapView.backgroundColor = [UIColor whiteColor];
+    _tapView.backgroundColor = [UIColor clearColor];
     [self addSubview:_tapView];
-    
+
     // Image view
     _photoImageView = [[MWTapDetectingImageView alloc] initWithFrame:self.bounds];
-    _photoImageView.backgroundColor = [UIColor whiteColor];
+    _photoImageView.backgroundColor = [UIColor clearColor];
     _photoImageView.contentMode = UIViewContentModeCenter;
     _photoImageView.tapDelegate = self;
     [self addSubview:_photoImageView];
