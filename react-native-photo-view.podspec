@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.license      = package['license']
   s.ios.deployment_target = "7.0"
   s.tvos.deployment_target = "9.0"
-  s.source       = { :git => "ttps://github.com/alwx/react-native-photo-view.git", :tag => "v#{s.version}" }
+  s.source       = { :git => "https://github.com/alwx/react-native-photo-view.git", :tag => "v#{s.version}" }
   s.source_files  = "ios/*.{h,m}"
   s.dependency "React"
 end
