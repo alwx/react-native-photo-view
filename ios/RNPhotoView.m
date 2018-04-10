@@ -294,7 +294,7 @@
             return;
         }
         _source = source;
-        NSURL *imageURL = [NSURL URLWithString:uri];
+        NSURL *imageURL = [NSURL URLWithString:[uri stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
         
         if (![[uri substringToIndex:4] isEqualToString:@"http"]) {
             @try {
