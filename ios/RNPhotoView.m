@@ -295,8 +295,8 @@
         }
         _source = source;
         NSURL *imageURL = [NSURL URLWithString:uri];
-        
-        if (![[uri substringToIndex:4] isEqualToString:@"http"]) {
+
+        if (imageURL && ![[uri substringToIndex:4] isEqualToString:@"http"]) {
             @try {
                 UIImage *image = RCTImageFromLocalAssetURL(imageURL);
                 if (image) { // if local image
