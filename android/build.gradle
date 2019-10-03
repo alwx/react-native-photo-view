@@ -34,7 +34,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:+'
-    compile 'com.facebook.fresco:fresco:0.11.0'
-    compile 'me.relex:photodraweeview:1.0.0'
+    implementation 'com.facebook.react:react-native:+'
+    implementation 'com.facebook.fresco:fresco:0.11.0'
+    implementation 'me.relex:photodraweeview:1.0.0'
 }
