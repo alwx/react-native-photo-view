@@ -335,7 +335,7 @@
         }
 
         // use default values from [imageLoader loadImageWithURLRequest:request callback:callback] method
-        [_bridge.imageLoader loadImageWithURLRequest:request
+        [[_bridge moduleForClass:[RCTImageLoader class]] loadImageWithURLRequest:request
                                         size:CGSizeZero
                                        scale:1
                                      clipped:YES
