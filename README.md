@@ -60,11 +60,13 @@ features Image has (the goal is to be fully compaitable with Image and support a
 ## Automatic installation
 
 Just two simple steps:
-```
+
+```console
 npm install --save react-native-photo-view
 ```
-```
-rnpm link react-native-photo-view
+
+```console
+react-native link react-native-photo-view
 ```
 
 ## Manual installation
