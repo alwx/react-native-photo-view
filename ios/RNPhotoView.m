@@ -140,6 +140,7 @@
 #pragma mark - Setup
 
 - (CGFloat)initialZoomScaleWithMinScale {
+    CGFloat minZoom = self.minimumZoomScale;
     CGFloat zoomScale = self.minimumZoomScale;
     if (_photoImageView) {
         // Zoom image to fill if the aspect ratios are fairly similar
@@ -153,7 +154,7 @@
         if (ABS(boundsAR - imageAR) < 0.17) {
             zoomScale = MAX(xScale, yScale);
             // Ensure we don't zoom in or out too far, just in case
-            zoomScale = MIN(MAX(self.minimumZoomScale, zoomScale), self.maximumZoomScale);
+            zoomScale = MIN(MAX(minZoom, zoomScale), minZoom);
         }
     }
     return zoomScale;
@@ -295,7 +296,7 @@
         }
         _source = source;
         NSURL *imageURL = [NSURL URLWithString:uri];
-        
+
         if (![[uri substringToIndex:4] isEqualToString:@"http"]) {
             @try {
                 UIImage *image = RCTImageFromLocalAssetURL(imageURL);
@@ -316,10 +317,10 @@
         }
 
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:imageURL];
-        
+
         if (source[@"headers"]) {
             NSMutableURLRequest *mutableRequest = [request mutableCopy];
-            
+
             NSDictionary *headers = source[@"headers"];
             NSEnumerator *enumerator = [headers keyEnumerator];
             id key;
@@ -334,7 +335,7 @@
         }
 
         // use default values from [imageLoader loadImageWithURLRequest:request callback:callback] method
-        [_bridge.imageLoader loadImageWithURLRequest:request
+        [[_bridge moduleForClass:[RCTImageLoader class]] loadImageWithURLRequest:request
                                         size:CGSizeZero
                                        scale:1
                                      clipped:YES
