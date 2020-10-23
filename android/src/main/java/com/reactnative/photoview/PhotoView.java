@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
@@ -269,4 +269,3 @@ public class PhotoView extends PhotoDraweeView {
         return Math.max(maximumTextureSize, IMAGE_MAX_BITMAP_DIMENSION);
     }
 }
-
