@@ -60,3 +60,12 @@ react-native-dialogs.iml
 .gradle
 local.properties
 android/*.iml
+
+# Example
+example/
+
+# Android
+android/gradlew
+android/build
+android/gradlew.bat
+android/gradle/
