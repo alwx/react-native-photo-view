@@ -7,6 +7,8 @@
 #import <React/RCTUtils.h>
 #import <React/UIView+React.h>
 #import <React/RCTImageLoader.h>
+#import <SDWebImage/SDAnimatedImageView+WebCache.h>
+#import <SDWebImage/SDWebImageDownloader.h>
 
 @interface RNPhotoView()
 
@@ -90,12 +92,12 @@
 
     if (_onPhotoViewerTap) {
         _onPhotoViewerTap(@{
-                            @"point": @{
-                                    @"x": @(touchX),
-                                    @"y": @(touchY),
-                                    },
-                            @"target": self.reactTag
-                            });
+            @"point": @{
+                    @"x": @(touchX),
+                    @"y": @(touchY),
+            },
+            @"target": self.reactTag
+                          });
     }
 }
 
@@ -117,12 +119,12 @@
 
     if (_onPhotoViewerViewTap) {
         _onPhotoViewerViewTap(@{
-                                @"point": @{
-                                        @"x": @(touchX),
-                                        @"y": @(touchY),
-                                        },
-                                @"target": self.reactTag,
-                                });
+            @"point": @{
+                    @"x": @(touchX),
+                    @"y": @(touchY),
+            },
+            @"target": self.reactTag,
+                              });
     }
 }
 
@@ -248,9 +250,9 @@
         _photoImageView.frame = frameToCenter;
     if (_onPhotoViewerScale) {
         _onPhotoViewerScale(@{
-                              @"scale": @(self.zoomScale),
-                              @"target": self.reactTag
-                              });
+            @"scale": @(self.zoomScale),
+            @"target": self.reactTag
+                            });
     }
 }
 
@@ -286,15 +288,16 @@
 #pragma mark - Setter
 
 - (void)setSource:(NSDictionary *)source {
+    __weak RNPhotoView *weakSelf = self;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if ([_source isEqualToDictionary:source]) {
+        if ([weakSelf.source isEqualToDictionary:source]) {
             return;
         }
         NSString *uri = source[@"uri"];
         if (!uri) {
             return;
         }
-        _source = source;
+        weakSelf.source = source;
         NSURL *imageURL = [NSURL URLWithString:uri];
 
         if (![[uri substringToIndex:4] isEqualToString:@"http"]) {
@@ -302,11 +305,11 @@
                 UIImage *image = RCTImageFromLocalAssetURL(imageURL);
                 if (image) { // if local image
                     [self setImage:image];
-                    if (_onPhotoViewerLoad) {
-                        _onPhotoViewerLoad(nil);
+                    if (weakSelf.onPhotoViewerLoad) {
+                        weakSelf.onPhotoViewerLoad(nil);
                     }
-                    if (_onPhotoViewerLoadEnd) {
-                        _onPhotoViewerLoadEnd(nil);
+                    if (weakSelf.onPhotoViewerLoadEnd) {
+                        weakSelf.onPhotoViewerLoadEnd(nil);
                     }
                     return;
                 }
@@ -319,6 +322,10 @@
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:imageURL];
 
         if (source[@"headers"]) {
+            // Set headers.
+            [source[@"headers"] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString* header, BOOL *stop) {
+                [[SDWebImageDownloader sharedDownloader] setValue:header forHTTPHeaderField:key];
+            }];
             NSMutableURLRequest *mutableRequest = [request mutableCopy];
 
             NSDictionary *headers = source[@"headers"];
@@ -328,45 +335,41 @@
                 [mutableRequest addValue:[headers objectForKey:key] forHTTPHeaderField:key];
             request = [mutableRequest copy];
         }
-
-        __weak RNPhotoView *weakSelf = self;
-        if (_onPhotoViewerLoadStart) {
-            _onPhotoViewerLoadStart(nil);
+        if (weakSelf.onPhotoViewerLoadStart) {
+            weakSelf.onPhotoViewerLoadStart(nil);
         }
 
-        // use default values from [imageLoader loadImageWithURLRequest:request callback:callback] method
-        [[_bridge moduleForClass:[RCTImageLoader class]] loadImageWithURLRequest:request
-                                        size:CGSizeZero
-                                       scale:1
-                                     clipped:YES
-                                  resizeMode:RCTResizeModeStretch
-                               progressBlock:^(int64_t progress, int64_t total) {
-                                   if (_onPhotoViewerProgress) {
-                                       _onPhotoViewerProgress(@{
-                                           @"loaded": @((double)progress),
-                                           @"total": @((double)total),
-                                       });
-                                   }
-                               }
-                            partialLoadBlock:nil
-                             completionBlock:^(NSError *error, UIImage *image) {
-                                                if (image) {
-                                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                                        [weakSelf setImage:image];
-                                                    });
-                                                    if (_onPhotoViewerLoad) {
-                                                        _onPhotoViewerLoad(nil);
-                                                    }
-                                                } else {
-                                                    if (_onPhotoViewerError) {
-                                                        _onPhotoViewerError(nil);
-                                                    }
-                                                }
-                                                if (_onPhotoViewerLoadEnd) {
-                                                    _onPhotoViewerLoadEnd(nil);
-                                                }
-                                            }];
+        SDWebImageOptions options = SDWebImageRetryFailed;
+        [weakSelf downloadImage:imageURL options:options];
     });
+}
+
+- (void)downloadImage:(NSURL *) url options:(SDWebImageOptions) options {
+    __weak typeof(self) weakSelf = self; // Always use a weak reference to self in blocks
+    [[SDWebImageManager sharedManager] loadImageWithURL:url options:options progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+        if (weakSelf.onPhotoViewerProgress) {
+            weakSelf.onPhotoViewerProgress(@{
+                @"loaded": @(receivedSize),
+                @"total": @(expectedSize)
+                                           });
+        }
+    } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {
+        if (error) {
+            if (weakSelf.onPhotoViewerError) {
+                weakSelf.onPhotoViewerError(nil);
+            }
+        } else if (image) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf setImage:image];
+            });
+            if (weakSelf.onPhotoViewerLoad) {
+                weakSelf.onPhotoViewerLoad(nil);
+            }
+        }
+        if (weakSelf.onPhotoViewerLoadEnd) {
+            weakSelf.onPhotoViewerLoadEnd(nil);
+        }
+    }];
 }
 
 - (void)setLoadingIndicatorSrc:(NSString *)loadingIndicatorSrc {
