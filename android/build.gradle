@@ -33,6 +33,6 @@ repositories {
 
 dependencies {
     implementation 'com.facebook.react:react-native:+'
-    implementation 'com.facebook.fresco:fresco:2.5.0'
+    implementation 'com.facebook.fresco:fresco:2.6.0'
     implementation 'me.relex:photodraweeview:2.1.0'
 }
