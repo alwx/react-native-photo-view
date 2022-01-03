@@ -14,4 +14,6 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/alwx/react-native-photo-view.git", :tag => "v#{s.version}" }
   s.source_files  = "ios/*.{h,m}"
   s.dependency "React-Core"
+  s.dependency 'SDWebImage'
+  s.dependency 'SDWebImageWebPCoder'
 end
