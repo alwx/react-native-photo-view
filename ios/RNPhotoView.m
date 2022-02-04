@@ -286,7 +286,7 @@
 #pragma mark - Setter
 
 - (void)setSource:(NSDictionary *)source {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul), ^{
         if ([_source isEqualToDictionary:source]) {
             return;
         }
@@ -301,7 +301,10 @@
             @try {
                 UIImage *image = RCTImageFromLocalAssetURL(imageURL);
                 if (image) { // if local image
-                    [self setImage:image];
+                    __weak RNPhotoView *weakSelf = self;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [weakSelf setImage:image];
+                    });
                     if (_onPhotoViewerLoad) {
                         _onPhotoViewerLoad(nil);
                     }
