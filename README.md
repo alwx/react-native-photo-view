@@ -60,60 +60,11 @@ features Image has (the goal is to be fully compaitable with Image and support a
 
 ## Automatic installation
 
-Just two simple steps:
-
 ```console
-npm install --save react-native-photo-view
+npm install --save @fredmanxu/react-native-photo-view
 ```
-
-```console
-react-native link react-native-photo-view
-```
-
-## Manual installation
-
-
-### Android
-1. Add these lines to `android/settings.gradle`
-```
-include ':react-native-photo-view'
-project(':react-native-photo-view').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-photo-view/android')
-```
-
-2. Add one more dependency to `android/app/build.gradle`
-```
-dependencies {
-    compile project(':react-native-photo-view')
-}
-```
-
-3. Add it to your `MainActivity.java` for RN < 0.29 and to your `MainApplication.java` for RN >=0.29
-
-To register `PhotoViewPackage`, you need to change the `MainActivity` or `MainApplication` depending on React Native version of your app:
-```java
-import com.reactnative.photoview.PhotoViewPackage;
-
-// ...
-
-public class MainActivity extends ReactActivity {
-    // ...
-
-    @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-          new PhotoViewPackage() // add this manager
-      );
-    }
-
-    // ...
-}
-```
-
 ### IOS
-1. Add this line to your podfile
+```console
+cd ios
+pod install
 ```
-  pod 'react-native-photo-view', path: './node_modules/react-native-photo-view'
-```
-
-2. Run `pod install`
