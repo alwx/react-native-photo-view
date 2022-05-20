@@ -5,14 +5,22 @@ pinch-to-zoom on images. Works on both iOS and Android.
 
 This component uses [PhotoDraweeView](https://github.com/ongakuer/PhotoDraweeView) for Android and [MWPhotobrowser](https://github.com/mwaterfall/MWPhotoBrowser) on iOS.
 
+## Automatic installation
+
+```console
+npm install --save @fredmanxu/react-native-photo-view
+```
+##### IOS
+```console
+cd ios
+pod install
+```
+
 ## Usage
 
 ```javascript
 import PhotoView from 'react-native-photo-view';
-```
 
-Basics:
-```javascript
 <PhotoView
   source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
   minimumZoomScale={0.5}
@@ -58,13 +66,3 @@ support Facebook Fresco;
 features Image has (the goal is to be fully compaitable with Image and support absolutely everything);
 * It is possible to use PhotoView as a container (currently iOS only)!
 
-## Automatic installation
-
-```console
-npm install --save @fredmanxu/react-native-photo-view
-```
-### IOS
-```console
-cd ios
-pod install
-```
