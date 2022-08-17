@@ -27,7 +27,8 @@
     "type": "git",
     "url": "git://github.com/alwx/react-native-photo-view.git"
   },
-  "dependencies": {
-    "prop-types": "^15.5.10"
+  "peerDependencies": {
+    "deprecated-react-native-prop-types": "*",
+    "prop-types": "*"
   }
 }
