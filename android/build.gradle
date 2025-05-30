@@ -6,19 +6,19 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:4.2.2'
     }
 }
 
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 28
+        minSdkVersion 21
+        targetSdkVersion 30
         versionCode 1
     }
     lintOptions {
@@ -34,5 +34,5 @@ repositories {
 dependencies {
     implementation 'com.facebook.react:react-native:+'
     implementation 'com.facebook.fresco:fresco:1.12.1'
-    implementation 'me.relex:photodraweeview:1.1.3'
+    implementation 'me.relex:photodraweeview:2.1.0'
 }
